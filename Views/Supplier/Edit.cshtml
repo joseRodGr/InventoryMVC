@@ -1,0 +1,34 @@
+﻿@model InventoryMVC.Models.ViewModels.EditSupplierViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="Supplier" asp-action="Edit" method="post" class="py-4 px-3 rounded" autocomplete="off">
+                <h1>Edit Supplier</h1>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <label asp-for="SupplierName"></label>
+                    <input asp-for="SupplierName" class="form-control" />
+                    <span asp-validation-for="SupplierName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telephone"></label>
+                    <input asp-for="Telephone" class="form-control" />
+                    <span asp-validation-for="Telephone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="EDIT" />
+                    <a asp-controller="Supplier" asp-action="Index" class="btn btn-secondary">CANCEL</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@model InventoryMVC.Models.ViewModels.CreateSupplierViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="Supplier" asp-action="Create" method="post" class="py-4 px-3 rounded" autocomplete="off">
+                <h1>New Supplier</h1>
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="form-group">
+                    <label asp-for="SupplierName"></label>
+                    <input class="form-control" asp-for="SupplierName" />
+                    <span asp-validation-for="SupplierName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input class="form-control" asp-for="Email"/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telephone"></label>
+                    <input class="form-control" asp-for="Telephone"/>
+                    <span asp-validation-for="Telephone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="ADD" />
+                    <a asp-controller="Supplier" asp-action="Index" class="btn btn-secondary">CANCEL</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

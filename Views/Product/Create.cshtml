@@ -1,0 +1,37 @@
+﻿@model InventoryMVC.Models.ViewModels.CreateProductViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="Product" asp-action="Create" method="post" class="py-4 px-3 rounded" autocomplete="off">
+                <h1>New Product</h1>
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input class="form-control" asp-for="Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea class="form-control" asp-for="Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input class="form-control" asp-for="Price" placeholder="0.00"/>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-control"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="ADD" />
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">CANCEL</a>
+                </div>
+            </form>
+        </div> 
+    </div>
+</div> 

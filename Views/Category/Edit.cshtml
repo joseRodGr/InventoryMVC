@@ -1,0 +1,30 @@
+﻿@model InventoryMVC.Models.ViewModels.EditCategoryViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="Category" asp-action="Edit" method="post" class="py-4 px-3 rounded" autocomplete="off">
+                <h1>Edit Category</h1>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <label asp-for="CategoryName"></label>
+                    <input asp-for="CategoryName" class="form-control" />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea class="form-control" asp-for="Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="EDIT" />
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">CANCEL</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
