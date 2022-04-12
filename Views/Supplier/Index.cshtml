@@ -3,6 +3,9 @@
 @using InventoryMVC.Helpers;
 @model IEnumerable<SupplierViewModel>;
 
+@{
+    ViewData["Title"] = "Suppliers";
+}
 
 <div class="container">
 
@@ -31,23 +34,23 @@
                 <tbody>
                     @foreach (var supplier in Model)
                     {
-                    <tr id="row_@supplier.Id">
-                        <td>
-                            @Html.DisplayFor(modelItem => supplier.SupplierName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => supplier.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => supplier.Telephone)
-                        </td>
-                        <td>
-                            <a class="btn btn-primary py-1" asp-controller="Supplier" asp-action="Edit" asp-route-id="@supplier.Id">Edit</a>
-                            <a class="btn btn-danger py-1" onclick="ConfirmDelete(@supplier.Id, 'Delete Supplier', '@supplier.SupplierName')">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
+                        <tr id="row_@supplier.Id">
+                            <td>
+                                @Html.DisplayFor(modelItem => supplier.SupplierName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => supplier.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => supplier.Telephone)
+                            </td>
+                            <td>
+                                <a class="btn btn-primary py-1" asp-controller="Supplier" asp-action="Edit" asp-route-id="@supplier.Id">Edit</a>
+                                <a class="btn btn-danger py-1" onclick="ConfirmDelete(@supplier.Id, 'Delete Supplier', '@supplier.SupplierName')">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

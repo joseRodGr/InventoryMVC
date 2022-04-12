@@ -1,5 +1,8 @@
 ﻿@model InventoryMVC.Models.ViewModels.CreateProductViewModel
 
+@{
+    ViewData["Title"] = "Add product";
+}
 
 <div class="container">
     <div class="row">
@@ -19,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Price"></label>
-                    <input class="form-control" asp-for="Price" placeholder="0.00"/>
+                    <input class="form-control" asp-for="Price" placeholder="0.00" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -32,6 +35,6 @@
                     <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">CANCEL</a>
                 </div>
             </form>
-        </div> 
+        </div>
     </div>
-</div> 
+</div>
