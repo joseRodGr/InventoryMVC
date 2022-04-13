@@ -1,0 +1,37 @@
+﻿@model InventoryMVC.Models.ViewModels.ProductSupplierViewModel
+
+@{ 
+    var productName = (string)ViewBag.ProductName;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="ProductSupplier" asp-action="AddSupplier" method="post" class="py-4 px-3 rounded" autocomplete="off">
+                <h3>Add Supplier for @productName</h3>
+                <input type="hidden" asp-for="ProductId" />
+
+                <div class="form-group">
+                    <label>Product</label>
+                    <input class="form-control" value="@productName" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SupplierId"></label>
+                    <select asp-for="SupplierId" asp-items="@ViewBag.SupplierList" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="ADD" />
+                    <a asp-controller="ProductSupplier" asp-action="GetSuppliers" asp-route-id="@Model.ProductId" class="btn btn-secondary">
+                        CANCEL
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/css/formPage.css" rel="stylesheet" type="text/css" />
+}

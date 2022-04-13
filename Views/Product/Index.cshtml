@@ -61,7 +61,7 @@
                                 @Html.DisplayFor(modelItem => product.CategoryName)
                             </td>
                             <td>
-                                <a asp-controller="ProductSupplier" asp-action="Get" asp-route-id="@product.Id">List of suppliers</a>
+                                <a asp-controller="ProductSupplier" asp-action="GetSuppliers" asp-route-id="@product.Id">List of suppliers</a>
                             </td>
                             <td>
                                 <a class="btn btn-primary py-1" asp-action="Edit" asp-route-id="@product.Id">Edit</a>

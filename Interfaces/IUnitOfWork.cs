@@ -11,6 +11,7 @@ namespace InventoryMVC.Interfaces
         IGenericRepository<Product> ProductRepository { get;}
         IGenericRepository<Category> CategoryRepository { get;}
         IGenericRepository<Supplier> SupplierRepository { get;}
+        IProductSupplierRepository ProductSupplierRepository { get; }
         Task<bool> SaveAllAsync();
 
     }

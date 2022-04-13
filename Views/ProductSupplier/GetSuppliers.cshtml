@@ -1,0 +1,48 @@
+﻿@model IEnumerable<InventoryMVC.Models.ViewModels.SupplierViewModel>
+
+@{ 
+    var productName = (string)ViewBag.ProductName;
+    var productId = (int)ViewBag.ProductId;
+} 
+
+<div class="container">
+    <div class="text-right">
+        <a class="btn btn-primary mb-3" asp-controller="ProductSupplier" asp-action="AddSupplier" asp-route-id="@productId">
+            Add supplier
+        </a>
+        <a class="btn btn-secondary mb-3" asp-controller="Product" asp-action="Index">
+            Go back
+        </a>
+    </div>
+    <h1>Suppliers for @productName</h1>
+    @if (Model.Count() > 0)
+    {
+        <div class="row">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.SupplierName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Email)</th>
+                        <th>@Html.DisplayNameFor(model => model.Telephone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var supplier in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => supplier.SupplierName)</td>
+                            <td>@Html.DisplayFor(modelItem => supplier.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => supplier.Telephone)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <h5>There are not suppliers registered for this product</h5>
+    }
+</div>
