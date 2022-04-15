@@ -15,6 +15,7 @@ namespace InventoryMVC.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public ICollection<ProductSupplier> ProductSuppliers { get; set; }
+        public ICollection<InventoryMovement> InventoryMovements { get; set; }
 
     }
 }

@@ -17,6 +17,7 @@ namespace InventoryMVC.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<ProductSupplier> ProductSuppliers { get; set; }
+        public DbSet<InventoryMovement> InventoryMovements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

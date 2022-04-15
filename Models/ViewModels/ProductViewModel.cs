@@ -15,6 +15,7 @@ namespace InventoryMVC.Models.ViewModels
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Stock")]
         public int Ammount { get; set; }
 
         [Required]

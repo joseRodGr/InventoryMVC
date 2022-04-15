@@ -33,3 +33,7 @@
 @section Styles{
    <link href="~/css/formPage.css" rel="stylesheet" type="text/css"  />
 }
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 
