@@ -1,4 +1,5 @@
 ﻿using InventoryMVC.Models;
+using InventoryMVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace InventoryMVC.Interfaces
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<Product> ProductRepository { get;}
-        IGenericRepository<Category> CategoryRepository { get;}
-        IGenericRepository<Supplier> SupplierRepository { get;}
+        IRepository<Product, ProductViewModel> ProductRepository { get;}
+        IRepository<Category, CategoryViewModel> CategoryRepository { get;}
+        IRepository<Supplier, SupplierViewModel> SupplierRepository { get;}
         IProductSupplierRepository ProductSupplierRepository { get; }
         Task<bool> SaveAllAsync();
 

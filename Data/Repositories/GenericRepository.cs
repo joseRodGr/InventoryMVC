@@ -1,4 +1,7 @@
-﻿using InventoryMVC.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using InventoryMVC.Helpers;
+using InventoryMVC.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -43,5 +46,6 @@ namespace InventoryMVC.Data.Repositories
             _dbSet.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using InventoryMVC.Interfaces;
 using InventoryMVC.Models;
+using InventoryMVC.Models.ViewModels;
 using System.Threading.Tasks;
 
 namespace InventoryMVC.Data.Repositories
@@ -10,24 +11,20 @@ namespace InventoryMVC.Data.Repositories
         private readonly InventoryContext _context;
         private readonly IMapper _mapper;
 
-        private readonly IGenericRepository<Product> _productRepository;
-        private readonly IGenericRepository<Category> _categoryRepository;
-        private readonly IGenericRepository<Supplier> _supplierRepository;
-        private readonly IProductSupplierRepository _productSupplierRepository;
-
         public UnitOfWork(InventoryContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public IGenericRepository<Product> ProductRepository => _productRepository ?? new ProductRepository(_context);
 
-        public IGenericRepository<Category> CategoryRepository => _categoryRepository ?? new GenericRepository<Category>(_context);
+        public IRepository<Product, ProductViewModel> ProductRepository => new ProductRepository(_context, _mapper);
 
-        public IGenericRepository<Supplier> SupplierRepository => _supplierRepository ?? new GenericRepository<Supplier>(_context);
+        public IRepository<Category, CategoryViewModel> CategoryRepository => new CategoryRepository(_context, _mapper);
 
-        public IProductSupplierRepository ProductSupplierRepository => _productSupplierRepository ?? new ProductSupplierRepository(_context, _mapper);
+        public IRepository<Supplier, SupplierViewModel> SupplierRepository => new SupplierRepository(_context, _mapper);
+
+        public IProductSupplierRepository ProductSupplierRepository => new ProductSupplierRepository(_context, _mapper);
 
         public async Task<bool> SaveAllAsync()
         {

@@ -1,7 +1,7 @@
 ﻿
 @using InventoryMVC.Models.ViewModels;
 @using InventoryMVC.Helpers;
-@model IEnumerable<SupplierViewModel>;
+@model PaginatedList<SupplierViewModel>;
 
 @{
     ViewData["Title"] = "Suppliers";
@@ -21,13 +21,13 @@
                 <thead class="thead-light">
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.SupplierName)
+                            @Html.DisplayNameFor(model => model[0].SupplierName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Email)
+                            @Html.DisplayNameFor(model => model[0].Email)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Telephone)
+                            @Html.DisplayNameFor(model => model[0].Telephone)
                         </th>
                         <th>
                             Products
@@ -38,30 +38,40 @@
                 <tbody>
                     @foreach (var supplier in Model)
                     {
-                    <tr id="row_@supplier.Id">
-                        <td>
-                            @Html.DisplayFor(modelItem => supplier.SupplierName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => supplier.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => supplier.Telephone)
-                        </td>
-                        <td>
-                            <a asp-controller="ProductSupplier" asp-action="GetProducts" asp-route-id="@supplier.Id">List of products</a>
-                        </td>
-                        <td>
-                            <a class="btn btn-primary py-1" asp-controller="Supplier" asp-action="Edit" asp-route-id="@supplier.Id">Edit</a>
-                            <a class="btn btn-danger py-1" onclick="ConfirmDelete(@supplier.Id, 'Delete Supplier', '@supplier.SupplierName')">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
+                        <tr id="row_@supplier.Id">
+                            <td>
+                                @Html.DisplayFor(modelItem => supplier.SupplierName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => supplier.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => supplier.Telephone)
+                            </td>
+                            <td>
+                                <a asp-controller="ProductSupplier" asp-action="GetProducts" asp-route-id="@supplier.Id">List of products</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary py-1" asp-controller="Supplier" asp-action="Edit" asp-route-id="@supplier.Id">Edit</a>
+                                <a class="btn btn-danger py-1" onclick="ConfirmDelete(@supplier.Id, 'Delete Supplier', '@supplier.SupplierName')">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
+
+        @await Html.PartialAsync("_PaginationPartial",
+            new PaginationInfo
+            {
+                PreviousDisabled = !Model.HasPrevious,
+                NextDisabled = !Model.HasNext,
+                PageNumber = Model.PageNumber,
+                TotalPages = Model.TotalPages
+            }
+        );
     }
     else
     {

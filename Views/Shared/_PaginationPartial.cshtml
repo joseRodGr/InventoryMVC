@@ -1,0 +1,21 @@
+﻿
+@model InventoryMVC.Helpers.PaginationInfo
+
+<nav aria-label="Page navigation" class="d-flex justify-content-center align-items-center">
+    <ul class="pagination">
+        <li class="page-item @(Model.PreviousDisabled ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + -1)">Previous</a>
+        </li>
+
+        @for (int index = 1; index <= Model.TotalPages; index++)
+        {
+            <li class="page-item @(Model.PageNumber == index ? "active": "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@index">@index</a>
+            </li>
+        }
+
+        <li class="page-item @(Model.NextDisabled ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)">Next</a>
+        </li>
+    </ul>
+</nav>

@@ -1,7 +1,7 @@
 ﻿
 @using InventoryMVC.Models.ViewModels;
 @using InventoryMVC.Helpers;
-@model IEnumerable<CategoryViewModel>;
+@model PaginatedList<CategoryViewModel>;
 
 @{
     ViewData["Title"] = "Categories";
@@ -22,10 +22,10 @@
                 <thead class="thead-light">
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.CategoryName)
+                            @Html.DisplayNameFor(model => model[0].CategoryName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Description)
+                            @Html.DisplayNameFor(model => model[0].Description)
                         </th>
 
                         <th></th>
@@ -52,6 +52,16 @@
                 </tbody>
             </table>
         </div>
+
+        @await Html.PartialAsync("_PaginationPartial",
+            new PaginationInfo
+            {
+                PreviousDisabled = !Model.HasPrevious,
+                NextDisabled = !Model.HasNext,
+                PageNumber = Model.PageNumber,
+                TotalPages = Model.TotalPages
+            }
+        );
     }
     else
     {

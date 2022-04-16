@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InventoryMVC.Helpers;
 using InventoryMVC.Interfaces;
 using InventoryMVC.Models;
 using InventoryMVC.Models.ViewModels;
@@ -20,10 +21,10 @@ namespace InventoryMVC.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(PaginationParams paginationParams)
         {
-            var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
-            var categoriesVM = _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
+            var categoriesVM = await _unitOfWork.CategoryRepository.GetAllPagedAsync(paginationParams);
             return View(categoriesVM);
         }
 
