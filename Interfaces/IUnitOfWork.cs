@@ -13,6 +13,7 @@ namespace InventoryMVC.Interfaces
         IRepository<Category, CategoryViewModel> CategoryRepository { get;}
         IRepository<Supplier, SupplierViewModel> SupplierRepository { get;}
         IProductSupplierRepository ProductSupplierRepository { get; }
+        IStockRepository StockRepository { get; }
         Task<bool> SaveAllAsync();
 
     }

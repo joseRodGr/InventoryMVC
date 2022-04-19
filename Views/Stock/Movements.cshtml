@@ -1,0 +1,90 @@
+﻿@using InventoryMVC.Helpers
+@model IEnumerable<InventoryMVC.Models.ViewModels.InventoryMovementViewModel>
+
+@{
+    ViewData["Title"] = "Stock movements";
+}
+
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="text-primary">Stock movements - @ViewBag.ProductName</h2>
+        <a class="btn btn-secondary mb-3" asp-controller="Stock" asp-action="Index">
+            Go back
+        </a>
+    </div>
+
+
+    @if (Model.Count() > 0)
+    {
+        <div class="row text-center">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Fecha)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Type)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Ammount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductName)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var movement in Model)
+                    {
+                        <tr id="row_@movement.Id">
+                            <td>
+                                @Html.DisplayFor(modelItem => movement.Fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => movement.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => movement.Ammount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => movement.ProductName)
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-primary py-1 mx-1" asp-controller="Stock" asp-action="Edit" asp-route-id="@movement.Id">Edit</a>
+                                <a class="btn btn-danger py-1" onclick="ConfirmDelete(@movement.Id, 'Delete stock movement', 'this stock record')">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <h3>There aren't stock movements yet</h3>
+    }
+
+</div>
+
+<!-- Modal -->
+@await Html.PartialAsync("_ConfirmDelete",
+                    new ItemInfo
+                    {
+                        ControllerName = "Stock",
+                        ActionName = "Delete"
+                    })
+
+
+@section scripts{
+
+   <script src="~/js/delete.js"></script>
+
+}
+
+

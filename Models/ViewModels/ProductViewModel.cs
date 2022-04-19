@@ -12,6 +12,7 @@ namespace InventoryMVC.Models.ViewModels
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Product")]
         public string Name { get; set; }
 
         [Required]
@@ -26,6 +27,7 @@ namespace InventoryMVC.Models.ViewModels
         public decimal Price { get; set; }
 
         [Required]
+        [Display(Name ="Category")]
         public string CategoryName { get; set; }
 
 

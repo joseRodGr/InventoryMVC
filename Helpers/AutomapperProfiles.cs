@@ -30,6 +30,13 @@ namespace InventoryMVC.Helpers
             CreateMap<CreateSupplierViewModel, Supplier>();
 
             CreateMap<Supplier, EditSupplierViewModel>().ReverseMap();
+
+            CreateMap<InventoryMovement, InventoryMovementViewModel>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
+
+            CreateMap<CreateInventoryViewModel, InventoryMovement>();
+
+            CreateMap<InventoryMovement, EditInventoryViewModel>().ReverseMap();
                
         }
     }

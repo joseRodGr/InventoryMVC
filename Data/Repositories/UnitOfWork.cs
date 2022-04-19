@@ -17,7 +17,6 @@ namespace InventoryMVC.Data.Repositories
             _mapper = mapper;
         }
 
-
         public IRepository<Product, ProductViewModel> ProductRepository => new ProductRepository(_context, _mapper);
 
         public IRepository<Category, CategoryViewModel> CategoryRepository => new CategoryRepository(_context, _mapper);
@@ -25,6 +24,8 @@ namespace InventoryMVC.Data.Repositories
         public IRepository<Supplier, SupplierViewModel> SupplierRepository => new SupplierRepository(_context, _mapper);
 
         public IProductSupplierRepository ProductSupplierRepository => new ProductSupplierRepository(_context, _mapper);
+
+        public IStockRepository StockRepository => new StockRepository(_context,_mapper);
 
         public async Task<bool> SaveAllAsync()
         {

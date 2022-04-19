@@ -77,7 +77,7 @@ namespace InventoryMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSupplier(ProductSupplierViewModel model)
         {
-            var response = await GetAddResponse(model);
+            var response = await GetResponse(model);
 
             if (!response.IsSuccessful) return BadRequest(response.Message);
 
@@ -104,14 +104,14 @@ namespace InventoryMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(ProductSupplierViewModel model)
         {
-            var response = await GetAddResponse(model);
+            var response = await GetResponse(model);
 
             if (!response.IsSuccessful) return BadRequest(response.Message);
 
             return RedirectToAction("GetProducts", new { id = model.SupplierId});
         }
 
-        private async Task<ServerResponse> GetAddResponse(ProductSupplierViewModel model)
+        private async Task<ServerResponse> GetResponse(ProductSupplierViewModel model)
         {
             var productSupplier = await _unitOfWork.ProductSupplierRepository.GetProductSupplier(model.ProductId, model.SupplierId);
             
