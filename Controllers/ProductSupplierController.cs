@@ -3,6 +3,7 @@ using InventoryMVC.Helpers;
 using InventoryMVC.Interfaces;
 using InventoryMVC.Models;
 using InventoryMVC.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace InventoryMVC.Controllers
 {
+    [Authorize]
     public class ProductSupplierController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

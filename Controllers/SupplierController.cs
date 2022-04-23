@@ -3,6 +3,7 @@ using InventoryMVC.Helpers;
 using InventoryMVC.Interfaces;
 using InventoryMVC.Models;
 using InventoryMVC.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace InventoryMVC.Controllers
 {
+    [Authorize]
     public class SupplierController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -49,6 +51,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -63,6 +66,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditSupplierViewModel editSupplierVM)
         {
@@ -82,6 +86,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Delete(int id)
         {
             var supplier = await _unitOfWork.SupplierRepository.GetByIdAsync(id);

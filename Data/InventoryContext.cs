@@ -1,4 +1,5 @@
 ﻿using InventoryMVC.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InventoryMVC.Data
 {
-    public class InventoryContext: DbContext
+    public class InventoryContext : IdentityDbContext<AppUser>
     {
         public InventoryContext(DbContextOptions<InventoryContext> options): base(options)
         {

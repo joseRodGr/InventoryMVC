@@ -3,6 +3,7 @@ using InventoryMVC.Helpers;
 using InventoryMVC.Interfaces;
 using InventoryMVC.Models;
 using InventoryMVC.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace InventoryMVC.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -28,6 +30,7 @@ namespace InventoryMVC.Controllers
             return View(productsVM);
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -56,6 +59,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -72,6 +76,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromRoute]int id, EditProductViewModel editProductVM)
         {
@@ -98,6 +103,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);

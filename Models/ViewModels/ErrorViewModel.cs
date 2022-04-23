@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InventoryMVC.Models
+namespace InventoryMVC.Models.ViewModels
 {
     public class ErrorViewModel
     {

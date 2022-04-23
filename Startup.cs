@@ -2,9 +2,11 @@ using InventoryMVC.Data;
 using InventoryMVC.Data.Repositories;
 using InventoryMVC.Helpers;
 using InventoryMVC.Interfaces;
+using InventoryMVC.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,17 @@ namespace InventoryMVC
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(AutomapperProfiles).Assembly);
 
+            services.AddDefaultIdentity<AppUser>(opt => {
+                opt.SignIn.RequireConfirmedAccount = false; 
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<InventoryContext>();
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy(Constants.Policies.RequiredAdmin, policy => policy.RequireRole(Constants.Roles.Admin));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +70,7 @@ namespace InventoryMVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -64,6 +78,7 @@ namespace InventoryMVC
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
