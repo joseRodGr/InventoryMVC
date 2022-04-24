@@ -25,7 +25,8 @@ namespace InventoryMVC.Controllers
         }
         public async Task<IActionResult> Index(PaginationParams paginationParams)
         {
-            var suppliersVM = await _unitOfWork.SupplierRepository.GetAllPagedAsync(paginationParams); ;
+            var suppliersVM = await _unitOfWork.SupplierRepository.GetAllPagedAsync(paginationParams);
+            ViewBag.PageNumber = paginationParams.PageNumber;
             return View(suppliersVM);
         }
 
@@ -51,8 +52,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int pageNumber)
         {
             if (id == null) return NotFound();
 
@@ -62,27 +62,37 @@ namespace InventoryMVC.Controllers
 
             var supplierVM = _mapper.Map<EditSupplierViewModel>(supplier);
 
+            ViewBag.PageNumber = pageNumber;
+
             return View(supplierVM);
         }
 
         [HttpPost]
-        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditSupplierViewModel editSupplierVM)
+        public async Task<IActionResult> Edit(int id, EditSupplierViewModel editSupplierVM, int pageNumber)
         {
             if (id != editSupplierVM.Id) return NotFound();
 
-            var supplier = await _unitOfWork.SupplierRepository.GetByIdAsync(id);
+            if (ModelState.IsValid)
+            {
+                var supplier = await _unitOfWork.SupplierRepository.GetByIdAsync(id);
 
-            if (supplier == null) return NotFound("Could not find the supplier");
+                if (supplier == null) return NotFound("Could not find the supplier");
 
-            _mapper.Map(editSupplierVM, supplier);
+                _mapper.Map(editSupplierVM, supplier);
 
-            _unitOfWork.SupplierRepository.update(supplier);
+                _unitOfWork.SupplierRepository.update(supplier);
 
-            await _unitOfWork.SaveAllAsync();
+                await _unitOfWork.SaveAllAsync();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index", new { PageNumber = pageNumber });
+            }
+
+            ViewBag.PageNumber = pageNumber;
+
+            return View(editSupplierVM);
+
+
         }
 
         [HttpPost]

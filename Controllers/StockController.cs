@@ -71,6 +71,7 @@ namespace InventoryMVC.Controllers
 
         }
 
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -88,6 +89,7 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Edit([FromRoute]int id, EditInventoryViewModel editInventoryVM)
         {
             if (id != editInventoryVM.Id) return NotFound();
@@ -110,17 +112,22 @@ namespace InventoryMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Delete(int id)
         {
             var movement = await _unitOfWork.StockRepository.GetByIdAsync(id);
 
             if (movement == null) return NotFound();
 
+            var currentStock = await _unitOfWork.StockRepository.GetCurrentStockById(movement.ProductId);
+
+            if (currentStock - movement.Ammount < 0) return BadRequest("There is not enough stock to complete the operation");
+
             _unitOfWork.StockRepository.delete(movement);
 
             if (await _unitOfWork.SaveAllAsync()) return Ok();
 
-            return BadRequest();
+            return BadRequest("Failed to delete the stock movement");
         }
 
         public async Task<IActionResult> Movements(int? id)

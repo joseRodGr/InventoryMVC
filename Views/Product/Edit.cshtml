@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-6 offset-3">
-            <form asp-controller="Product" asp-action="Edit" method="post" class="py-4 px-3 rounded" autocomplete="off">
+            <form asp-controller="Product" asp-action="Edit" asp-route-pageNumber="@ViewBag.PageNumber" method="post" class="py-4 px-3 rounded" autocomplete="off">
                 <h1>Edit Product</h1>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" value="EDIT" />
-                    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">CANCEL</a>
+                    <a asp-controller="Product" asp-action="Index" asp-route-pageNumber="@ViewBag.PageNumber" class="btn btn-secondary">CANCEL</a>
                 </div>
             </form>
         </div>

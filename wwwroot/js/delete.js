@@ -17,8 +17,9 @@ let Delete = (controllerName, actionName) => {
             $('#deleteModal').modal('hide');
             $('#row_' + itemId).remove();
         },
-        error: () => {
-            $('deleteModal').modal('hide');
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $('#deleteModal').modal('hide');
         }
+
     });
 };

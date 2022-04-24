@@ -52,7 +52,7 @@
                                 <a asp-controller="ProductSupplier" asp-action="GetProducts" asp-route-id="@supplier.Id">List of products</a>
                             </td>
                             <td>
-                                <a class="btn btn-primary py-1" asp-controller="Supplier" asp-action="Edit" asp-route-id="@supplier.Id">Edit</a>
+                                <a class="btn btn-primary py-1" asp-controller="Supplier" asp-action="Edit" asp-route-id="@supplier.Id" asp-route-pageNumber="@ViewBag.PageNumber">Edit</a>
                                 <a class="btn btn-danger py-1" onclick="ConfirmDelete(@supplier.Id, 'Delete Supplier', '@supplier.SupplierName')">
                                     Delete
                                 </a>

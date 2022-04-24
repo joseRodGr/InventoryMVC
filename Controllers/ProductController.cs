@@ -27,6 +27,7 @@ namespace InventoryMVC.Controllers
         public async Task<IActionResult> Index(PaginationParams paginationParams) 
         {
             var productsVM = await _unitOfWork.ProductRepository.GetAllPagedAsync(paginationParams);
+            ViewBag.PageNumber = paginationParams.PageNumber;
             return View(productsVM);
         }
 
@@ -55,12 +56,10 @@ namespace InventoryMVC.Controllers
 
             return RedirectToAction("Index");
 
-            
         }
 
         [HttpGet]
-        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int pageNumber)
         {
             if (id == null) return NotFound();
 
@@ -72,13 +71,14 @@ namespace InventoryMVC.Controllers
 
             ViewBag.Categories = new SelectList(await GetCategories(), "Id", "CategoryName");
 
+            ViewBag.PageNumber = pageNumber;
+
             return View(editProductVM);
         }
 
         [HttpPost]
-        [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute]int id, EditProductViewModel editProductVM)
+        public async Task<IActionResult> Edit([FromRoute]int id, EditProductViewModel editProductVM, int pageNumber)
         {
             if (editProductVM.Id != id) return NotFound();
 
@@ -94,10 +94,13 @@ namespace InventoryMVC.Controllers
 
                 await _unitOfWork.SaveAllAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { PageNumber = pageNumber});
             }
 
             ViewBag.Categories = new SelectList(await GetCategories(), "Id", "CategoryName");
+            
+            ViewBag.PageNumber = pageNumber;
+
             return View(editProductVM);
             
         }

@@ -42,7 +42,7 @@
                                 @Html.DisplayFor(modelItem => category.Description)
                             </td>
                             <td>
-                                <a class="btn btn-primary py-1" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+                                <a class="btn btn-primary py-1" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id" asp-route-pageNumber="@ViewBag.PageNumber">Edit</a>
                                 <a class="btn btn-danger py-1" onclick="ConfirmDelete(@category.Id, 'Delete Category', '@category.CategoryName')">
                                     Delete
                                 </a>
