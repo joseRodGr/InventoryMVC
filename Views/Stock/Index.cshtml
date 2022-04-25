@@ -9,6 +9,14 @@
 
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="text-primary">Stock</h1>
+        <form class="form-inline" asp-action="Index" method="get" autocomplete="off">
+            <div class="form-group">
+                <input class="form-control mx-1" name="searchString" value="@ViewBag.SearchString" placeholder=" -- All products -- "/>
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </form>   
     </div>
 
 

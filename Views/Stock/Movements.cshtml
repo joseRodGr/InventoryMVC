@@ -3,17 +3,27 @@
 
 @{
     ViewData["Title"] = "Stock movements";
-    var idToDelete = 0;
 }
 
 
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center">
+
+     
         <h2 class="text-primary">Stock movements - @ViewBag.ProductName</h2>
-        <a class="btn btn-secondary mb-3" asp-controller="Stock" asp-action="Index">
+        <a class="btn btn-secondary" asp-controller="Stock" asp-action="Index">
             Go back
         </a>
+       
+        <form class="form-inline" asp-action="Movements" asp-route-id="@ViewBag.ProductId" method="get">
+            <div class="form-group">
+                <select class="form-control mx-1" name="typeString" asp-items="@ViewBag.TypeItems"></select>
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa-solid fa-filter"></i> Filter
+                </button>
+            </div>
+        </form>
     </div>
 
 

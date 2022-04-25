@@ -21,7 +21,7 @@ namespace InventoryMVC.Data.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<ProductStockViewModel>> GetProductsStockAsync()
+        public async Task<IEnumerable<ProductStockViewModel>> GetProductsStockAsync(string searchString)
         {
             //Option 1
 
@@ -37,7 +37,14 @@ namespace InventoryMVC.Data.Repositories
 
             //Option 2
 
-            return await (from products in _context.Products
+            var source = from products in _context.Products select products;
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                source = source.Where(x => x.Name.Contains(searchString));
+            }
+
+            return await (from products in source
                           join movements in _context.InventoryMovements
                           on products.Id equals movements.ProductId into gj
                           from stock in gj.DefaultIfEmpty()
@@ -90,9 +97,16 @@ namespace InventoryMVC.Data.Repositories
                 .SumAsync(x => x.Ammount);
         }
 
-        public async Task<IEnumerable<InventoryMovementViewModel>> GetStockMovements(int productId)
+        public async Task<IEnumerable<InventoryMovementViewModel>> GetStockMovements(int productId, string typeString)
         {
-            return await _context.InventoryMovements.AsNoTracking()
+            var source = _context.InventoryMovements.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(typeString) && typeString != "All")
+            {
+                source = source.Where(x => x.Type == typeString);
+            }
+
+            return await source
                 .Where(x => x.ProductId == productId)
                 .ProjectTo<InventoryMovementViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();

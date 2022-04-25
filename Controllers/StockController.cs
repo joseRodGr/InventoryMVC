@@ -5,6 +5,7 @@ using InventoryMVC.Models;
 using InventoryMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace InventoryMVC.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var productsStockVM = await _unitOfWork.StockRepository.GetProductsStockAsync();
+            var productsStockVM = await _unitOfWork.StockRepository.GetProductsStockAsync(searchString);
+            ViewBag.SearchString = searchString;
             return View(productsStockVM);
         }
 
@@ -130,7 +132,7 @@ namespace InventoryMVC.Controllers
             return BadRequest("Failed to delete the stock movement");
         }
 
-        public async Task<IActionResult> Movements(int? id)
+        public async Task<IActionResult> Movements(int? id, string typeString)
         {
             if (id == null) return NotFound();
 
@@ -138,8 +140,15 @@ namespace InventoryMVC.Controllers
 
             if (product == null) return NotFound("Could not find the product");
 
-            var stockMovements = await _unitOfWork.StockRepository.GetStockMovements((int)id);
+            var stockMovements = await _unitOfWork.StockRepository.GetStockMovements((int)id, typeString);
+
+            var typeItems = new SelectList(new[] {"All", "Input", "Output"}, typeString ?? "All");
+
+            ViewBag.TypeItems = typeItems;
+            
             ViewBag.ProductName = product.Name;
+
+            ViewBag.ProductId = product.Id;
 
             return View(stockMovements);
         }

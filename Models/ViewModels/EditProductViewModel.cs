@@ -19,7 +19,6 @@ namespace InventoryMVC.Models.ViewModels
 
         [Required]
         [DataType(DataType.Currency)]
-        //[DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
 
         [Required]
