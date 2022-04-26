@@ -32,7 +32,7 @@ namespace InventoryMVC.Controllers
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync((int)id);
 
-            if (product == null) return NotFound("Could not find the product");
+            if (product == null) return NotFound();
 
             var suppliersVM = await _unitOfWork.ProductSupplierRepository.GetSuppliersByProductId((int)id);
 
@@ -65,7 +65,7 @@ namespace InventoryMVC.Controllers
             if (id == null) return NotFound();
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync((int)id);
-            if (product == null) return NotFound("Could not find the product");
+            if (product == null) return NotFound();
             
             var suppliers = await _unitOfWork.SupplierRepository.GetAllAsync();
             var suppliersVM = _mapper.Map<IEnumerable<SupplierViewModel>>(suppliers);
@@ -92,7 +92,7 @@ namespace InventoryMVC.Controllers
             if (id == null) return NotFound();
 
             var supplier = await _unitOfWork.SupplierRepository.GetByIdAsync((int)id);
-            if (supplier == null) return NotFound("Could not find the supplier");
+            if (supplier == null) return NotFound();
 
             var products = await _unitOfWork.ProductRepository.GetAllAsync();
             var productsVM = _mapper.Map<IEnumerable<ProductViewModel>>(products);

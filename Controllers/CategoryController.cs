@@ -59,7 +59,7 @@ namespace InventoryMVC.Controllers
 
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync((int)id);
 
-            if (category == null) return NotFound("Could not find the category");
+            if (category == null) return NotFound();
 
             var categoryVM = _mapper.Map<EditCategoryViewModel>(category);
 

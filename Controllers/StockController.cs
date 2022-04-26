@@ -37,7 +37,7 @@ namespace InventoryMVC.Controllers
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync((int)id);
 
-            if (product == null) return NotFound("Could not find the product");
+            if (product == null) return NotFound();
 
             var createInventoryVM = new CreateInventoryViewModel
             {
@@ -55,7 +55,7 @@ namespace InventoryMVC.Controllers
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(createInventoryVM.ProductId);
 
-            if (product == null) return NotFound("Could not find the product");
+            if (product == null) return NotFound();
 
             if (!ModelState.IsValid) return await ShowRegistrationView(product, createInventoryVM);
 
@@ -80,7 +80,7 @@ namespace InventoryMVC.Controllers
 
             var movement = await _unitOfWork.StockRepository.GetByIdAsync((int)id);
 
-            if (movement == null) return NotFound("Could not find the inventory movement");
+            if (movement == null) return NotFound();
 
             var editInventoryVM = _mapper.Map<EditInventoryViewModel>(movement);
 
@@ -97,7 +97,8 @@ namespace InventoryMVC.Controllers
             if (id != editInventoryVM.Id) return NotFound();
 
             var movement = await _unitOfWork.StockRepository.GetByIdAsync(id);
-            if (movement == null) return NotFound("Could not find the inventory movement");
+
+            if (movement == null) return NotFound();
 
             if (!ModelState.IsValid) return ShowEditView(movement, editInventoryVM);
 
@@ -129,7 +130,7 @@ namespace InventoryMVC.Controllers
 
             if (await _unitOfWork.SaveAllAsync()) return Ok();
 
-            return BadRequest("Failed to delete the stock movement");
+            return BadRequest();
         }
 
         public async Task<IActionResult> Movements(int? id, string typeString)
@@ -138,7 +139,7 @@ namespace InventoryMVC.Controllers
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync((int)id);
 
-            if (product == null) return NotFound("Could not find the product");
+            if (product == null) return NotFound();
 
             var stockMovements = await _unitOfWork.StockRepository.GetStockMovements((int)id, typeString);
 

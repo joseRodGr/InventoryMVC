@@ -65,7 +65,7 @@ namespace InventoryMVC.Controllers
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync((int)id);
 
-            if (product == null) return NotFound("Could not find the product");
+            if (product == null) return NotFound();
 
             var editProductVM = _mapper.Map<EditProductViewModel>(product);
 
@@ -86,7 +86,7 @@ namespace InventoryMVC.Controllers
             {
                 var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
 
-                if (product == null) return NotFound("Could not find the product");
+                if (product == null) return NotFound();
 
                 _mapper.Map(editProductVM, product);
 

@@ -58,7 +58,7 @@ namespace InventoryMVC.Controllers
 
             var supplier = await _unitOfWork.SupplierRepository.GetByIdAsync((int)id);
 
-            if (supplier == null) return NotFound("Could not find the supplier");
+            if (supplier == null) return NotFound();
 
             var supplierVM = _mapper.Map<EditSupplierViewModel>(supplier);
 
@@ -77,7 +77,7 @@ namespace InventoryMVC.Controllers
             {
                 var supplier = await _unitOfWork.SupplierRepository.GetByIdAsync(id);
 
-                if (supplier == null) return NotFound("Could not find the supplier");
+                if (supplier == null) return NotFound();
 
                 _mapper.Map(editSupplierVM, supplier);
 
