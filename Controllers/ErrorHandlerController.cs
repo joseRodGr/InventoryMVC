@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,16 @@ namespace InventoryMVC.Controllers
         [Route("ErrorHandler/{statusCode}")]
         public IActionResult StatusCodeErrorHandler(int statusCode)
         {
+
+            var statusCodeReExecuteFeature = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+
             switch (statusCode)
             {
 
                 case 400:
                     ViewBag.Title = "Bad Request";
-                    ViewBag.ErrorMessage = "The requested operation failed!!";
+                    ViewBag.ErrorMessage = statusCodeReExecuteFeature.OriginalPath == "/Stock/Delete"
+                        ? "There is not enough stock to complete the operation" : "The requested operation failed!!";
                     break;
 
                 case 401:
@@ -37,7 +42,7 @@ namespace InventoryMVC.Controllers
             }
 
             
-            return View("ErrorInfo");
+            return View("StatusError");
         }
     }
 }

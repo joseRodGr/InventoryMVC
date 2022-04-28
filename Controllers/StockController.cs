@@ -63,19 +63,25 @@ namespace InventoryMVC.Controllers
 
             var validationResult = await GetCreateValidationResult(newInventoryMovement);
 
-            if (!validationResult.IsSuccessful) return BadRequest(validationResult.Message);
+            if (validationResult.IsSuccessful)
+            {
+                _unitOfWork.StockRepository.Add(newInventoryMovement);
 
-            _unitOfWork.StockRepository.Add(newInventoryMovement);
+                await _unitOfWork.SaveAllAsync();
 
-            await _unitOfWork.SaveAllAsync();
+                return RedirectToAction("Index");
+            }
 
-            return RedirectToAction("Index");
+            ModelState.AddModelError("", validationResult.Message);
+
+            return await ShowRegistrationView(product, createInventoryVM);
 
         }
 
         [Authorize(Policy = Constants.Policies.RequiredAdmin)]
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null) return NotFound();
 
             var movement = await _unitOfWork.StockRepository.GetByIdAsync((int)id);
@@ -104,13 +110,18 @@ namespace InventoryMVC.Controllers
 
             var validationResult = await GetEditValidationResult(movement, editInventoryVM);
 
-            if(!validationResult.IsSuccessful) return BadRequest(validationResult.Message);
+            if(validationResult.IsSuccessful) 
+            {
+                _mapper.Map(editInventoryVM, movement);
+                _unitOfWork.StockRepository.update(movement);
 
-            _mapper.Map(editInventoryVM, movement);
-            _unitOfWork.StockRepository.update(movement);
+                await _unitOfWork.SaveAllAsync();
+                return RedirectToAction("Movements", new { id = movement.ProductId });
+            }
 
-            await _unitOfWork.SaveAllAsync();
-            return RedirectToAction("Movements", new { id = movement.ProductId });
+            ModelState.AddModelError("", validationResult.Message);
+
+            return ShowEditView(movement, editInventoryVM);
 
         }
 
@@ -124,13 +135,13 @@ namespace InventoryMVC.Controllers
 
             var currentStock = await _unitOfWork.StockRepository.GetCurrentStockById(movement.ProductId);
 
-            if (currentStock - movement.Ammount < 0) return BadRequest("There is not enough stock to complete the operation");
+            if (currentStock - movement.Ammount < 0) return BadRequest();
 
             _unitOfWork.StockRepository.delete(movement);
 
             if (await _unitOfWork.SaveAllAsync()) return Ok();
 
-            return BadRequest();
+            throw new NotImplementedException("Failed delete operation");
         }
 
         public async Task<IActionResult> Movements(int? id, string typeString)

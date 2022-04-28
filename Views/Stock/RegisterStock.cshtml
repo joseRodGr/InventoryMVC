@@ -9,7 +9,7 @@
         <div class="col-6 offset-3">
             <form asp-controller="Stock" asp-action="RegisterStock" method="post" class="py-4 px-3 rounded" autocomplete="off">
                 <h2>Stock Registration</h2>
-                <div asp-validation-summary="ModelOnly"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input class="form-control" asp-for="ProductId" type="hidden" />
 
                 <div class="form-group">

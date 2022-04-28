@@ -20,6 +20,6 @@ namespace InventoryMVC.Models.ViewModels
 
         [Required]
         [Display(Name ="Category")]
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
     }
 }

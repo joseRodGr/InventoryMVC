@@ -1,6 +1,8 @@
 ﻿using InventoryMVC.Models;
 using InventoryMVC.Models.ViewModels;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
@@ -28,6 +30,14 @@ namespace InventoryMVC.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            if(exceptionHandlerPathFeature?.Error is DbUpdateException)
+            {
+                ViewBag.Header = "Category in use";
+                ViewBag.Message = "The category you want to remove is being used by products. Remove the products related or change their category.";
+            }     
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

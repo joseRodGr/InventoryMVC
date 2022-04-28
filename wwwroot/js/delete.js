@@ -19,7 +19,10 @@ let Delete = (controllerName, actionName) => {
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             $('#deleteModal').modal('hide');
+            //console.log(XMLHttpRequest);
+            //if (XMLHttpRequest.status !== 500) {
             document.write(XMLHttpRequest.responseText);
+            //}
         }
 
     });

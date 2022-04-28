@@ -26,8 +26,19 @@ namespace InventoryMVC.Data
 
             builder.Entity<Product>().Property(p => p.Price).HasColumnType("decimal(18,4)");
 
+            builder.Entity<Product>()
+                .HasOne(x => x.Category)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<ProductSupplier>()
                 .HasKey(x => new { x.ProductId, x.SupplierId });
+
+            //foreach(var foreignKey in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            //{
+            //    foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            //}
 
 
         }
