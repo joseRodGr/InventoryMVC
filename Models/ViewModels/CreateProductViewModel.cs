@@ -14,12 +14,17 @@ namespace InventoryMVC.Models.ViewModels
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        [DataType(DataType.Currency)]
+        //[DataType(DataType.Currency)]
+        //[Required]
         public decimal Price { get; set; }
 
         [Required]
-        [Display(Name ="Category")]
+        [RegularExpression(@"^(\d+([\.,]\d{0,2})?|[\.,]?\d{1,2})$", ErrorMessage = "The input must be a number (max. 2 decimals)")]
+        [Display(Name = "Price ($)")]
+        public string PriceString { get; set; }
+
+        [Required]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
     }
 }

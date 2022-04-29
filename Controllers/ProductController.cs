@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,6 +49,8 @@ namespace InventoryMVC.Controllers
                 return View(model);
             }
 
+            model.Price = Decimal.Parse(model.PriceString.Replace(",","."), CultureInfo.InvariantCulture);
+
             var newProduct = _mapper.Map<Product>(model);
 
             _unitOfWork.ProductRepository.Add(newProduct);
@@ -69,6 +72,8 @@ namespace InventoryMVC.Controllers
 
             var editProductVM = _mapper.Map<EditProductViewModel>(product);
 
+            editProductVM.PriceString = editProductVM.Price.ToString("0.00");
+
             ViewBag.Categories = new SelectList(await GetCategories(), "Id", "CategoryName");
 
             ViewBag.PageNumber = pageNumber;
@@ -87,6 +92,8 @@ namespace InventoryMVC.Controllers
                 var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
 
                 if (product == null) return NotFound();
+
+                editProductVM.Price = Decimal.Parse(editProductVM.PriceString.Replace(",", "."), CultureInfo.InvariantCulture);
 
                 _mapper.Map(editProductVM, product);
 

@@ -18,8 +18,10 @@ namespace InventoryMVC.Models.ViewModels
         [Required]
         public string Description { get; set; }
 
+        //[Display(Name = "Price ($)")]
+        //[DataType(DataType.Currency)]
         [Required]
-        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0: $#,###.00}")]
         public decimal Price { get; set; }
 
         [Required]
